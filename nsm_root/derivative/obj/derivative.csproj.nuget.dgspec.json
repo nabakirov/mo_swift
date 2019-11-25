@@ -1,0 +1,64 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/derivative.csproj": {}
+  },
+  "projects": {
+    "/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/derivative.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/derivative.csproj",
+        "projectName": "derivative",
+        "projectPath": "/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/derivative.csproj",
+        "packagesPath": "/Users/nabakirov/.nuget/packages/",
+        "outputPath": "/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/nabakirov/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.0": {
+          "dependencies": {
+            "Extreme.Numerics": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

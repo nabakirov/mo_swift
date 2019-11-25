@@ -1,0 +1,30 @@
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/bin/Debug/netcoreapp3.0/derivative
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/bin/Debug/netcoreapp3.0/derivative.deps.json
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/bin/Debug/netcoreapp3.0/derivative.runtimeconfig.json
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/bin/Debug/netcoreapp3.0/derivative.runtimeconfig.dev.json
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/bin/Debug/netcoreapp3.0/derivative.dll
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/bin/Debug/netcoreapp3.0/derivative.pdb
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/obj/Debug/netcoreapp3.0/derivative.csprojAssemblyReference.cache
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/obj/Debug/netcoreapp3.0/derivative.AssemblyInfoInputs.cache
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/obj/Debug/netcoreapp3.0/derivative.AssemblyInfo.cs
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/obj/Debug/netcoreapp3.0/derivative.dll
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/obj/Debug/netcoreapp3.0/derivative.pdb
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/builds/derivative
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/builds/derivative.deps.json
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/builds/derivative.runtimeconfig.json
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/builds/derivative.runtimeconfig.dev.json
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/builds/derivative.dll
+/Users/nabakirov/Documents/mo_swift/nsm root/derivative/builds/derivative.pdb
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/obj/Debug/netcoreapp3.0/derivative.csprojAssemblyReference.cache
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/obj/Debug/netcoreapp3.0/derivative.AssemblyInfoInputs.cache
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/obj/Debug/netcoreapp3.0/derivative.AssemblyInfo.cs
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/obj/Debug/netcoreapp3.0/derivative.dll
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/obj/Debug/netcoreapp3.0/derivative.pdb
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/builds/derivative
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/builds/derivative.deps.json
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/builds/derivative.runtimeconfig.json
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/builds/derivative.runtimeconfig.dev.json
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/builds/derivative.dll
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/builds/derivative.pdb
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/builds/Extreme.Numerics.dll
+/Users/nabakirov/Documents/mo_swift/nsm_root/derivative/obj/Debug/netcoreapp3.0/derivative.csproj.CopyComplete

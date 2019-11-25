@@ -14,34 +14,34 @@ enum MyError: Error {
 
 class Parser {
     
-    private var expression: Expression
-    private var x: Double
+    private var raw: String
     
     init(expression: String) {
-        self.x = 0
-        self.expression = Expression("1 + 1")
-        self.expression = Expression(expression, symbols: [
-            .variable("x"): { _ in self.x},
+        self.raw = expression
+    }
+    public func run(x: Decimal.FloatLiteralType) -> Decimal.FloatLiteralType {
+        let expression = Expression(self.raw, symbols: [
+            .variable("x"): { _ in x},
             .function("exp", arity: 1): {args in exp(args[0])},
             .function("log", arity: 1): {args in log(args[0])},
-            
+            .infix("^"): {args in pow(args[0], args[1])}
             ])
-    }
-    public func run(x: Double) -> Double {
-        
-        self.x = x
         do {
-            return try self.expression.evaluate()
+            return try expression.evaluate()
         } catch {
             fatalError()
         }
     }
-
-    public func check_run(x: Double) throws -> Double {
-        
-        self.x = x
+    
+    public func check_run(x: Decimal.FloatLiteralType) throws -> Decimal.FloatLiteralType {
+        let expression = Expression(self.raw, symbols: [
+            .variable("x"): { _ in x},
+            .function("exp", arity: 1): {args in exp(args[0])},
+            .function("log", arity: 1): {args in log(args[0])},
+            .infix("^"): {args in pow(args[0], args[1])}
+            ])
         do {
-            return try self.expression.evaluate()
+            return try expression.evaluate()
         } catch {
             throw MyError.runtimeError("invalid")
         }

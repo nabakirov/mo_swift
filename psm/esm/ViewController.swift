@@ -65,11 +65,15 @@ class ViewController: NSViewController {
         var h: Double = hInput.doubleValue
         let r: Double = rInput.doubleValue
         var kMax: Int = kMaxInput.integerValue
-        let tMax: Double = tMaxInput.doubleValue
+        var tMax: Double = tMaxInput.doubleValue
         var isMin: Bool
         
         
         var yf0: Double = f.run(x: x0)
+        if (yf0.isNaN || yf0.isInfinite) {
+            setInvalidInput(text: "cannot execute function with given parameters \nChange X0")
+            return
+        }
         var yf1: Double
         var h1 = h
         var k: Int = 0
@@ -81,10 +85,12 @@ class ViewController: NSViewController {
         }
         
         let startTime = Date()
-        var endTime = NSDate()
         var found: Bool = false
         var isTimeReached = false
         progressBar.doubleValue = 0.0
+        var prevPosition: Decimal.FloatLiteralType = 0.0
+        var pauseTime: Double = 0.0
+        var pauseStart: Date
         repeat {
             k += 1
             progressBar.doubleValue = Double(k * 100 / kMax)
@@ -127,20 +133,39 @@ class ViewController: NSViewController {
                     h = h1
                 }
             }
-            endTime = NSDate()
+            progressBar.doubleValue = 100
+            x1Output.doubleValue = x1
+            yf1Output.doubleValue = yf1
+            kOutput.stringValue = String(k)
+            hOutput.doubleValue = abs(h1)
+            elapsedTimeOutput.doubleValue = NSDate().timeIntervalSince(startTime) - pauseTime
             if k == kMax {
+                pauseStart = Date()
                 if self.dialogOKCancel(question: "Continue Search?", text: "Solution was not found in given limit of iterations, add \(kMax) more iterations") {
                     kMax += kMax
                     kMaxInput.stringValue = String(kMax)
                 } else {
                     messageOutput.stringValue = "Not possible to find solution for given \namount of iterations \(kMax)"
                 }
+                pauseTime += Date().timeIntervalSince(pauseStart)
             }
-            if endTime.timeIntervalSince(startTime) >= tMax {
-                isTimeReached = true
-                messageOutput.stringValue = "Not possible to find solution for given \ntime limit \(tMax)"
+            if NSDate().timeIntervalSince(startTime) - pauseTime > tMax {
+                pauseStart = Date()
+                if self.dialogOKCancel(question: "Continue Search?", text: "Solution was not found in given time limit, add \(tMax) more time?") {
+                    tMax += tMax
+                    tMaxInput.stringValue = String(tMax)
+                } else {
+                    isTimeReached = true
+                    messageOutput.stringValue = "Not possible to find solution for given \ntime limit \(tMax)"
+                }
+                pauseTime += Date().timeIntervalSince(pauseStart)
             }
             
+            let position = Decimal.FloatLiteralType((k * 100) / kMax)
+            if(Int(position) % 10 == 0 && position != prevPosition) {
+                prevPosition = position
+                progressBar.doubleValue = position
+            }
             
         } while k < kMax && !isTimeReached && !found
             
@@ -152,8 +177,8 @@ class ViewController: NSViewController {
         x1Output.doubleValue = x1
         yf1Output.doubleValue = yf1
         kOutput.stringValue = String(k)
-        hOutput.doubleValue = h1
-        elapsedTimeOutput.doubleValue = endTime.timeIntervalSince(startTime)
+        hOutput.doubleValue = abs(h1)
+        elapsedTimeOutput.doubleValue = NSDate().timeIntervalSince(startTime) - pauseTime
     }
    
 
@@ -171,8 +196,8 @@ class ViewController: NSViewController {
         progressBar.doubleValue = 0
         
     }
-    func setInvalidInput() {
-        self.alertModal(messageText: "invalid input", informativeText: "")
+    func setInvalidInput(text: String = "") {
+        self.alertModal(messageText: "invalid input", informativeText: text)
         messageOutput.stringValue = "invalid input"
     }
     
@@ -182,15 +207,45 @@ class ViewController: NSViewController {
             do {
                 _ = try f.check_run(x: 1)
             } catch {
-                self.setInvalidInput()
+                self.setInvalidInput(text: "Cannot parse function\nchange function field")
                 return false
             }
         }
-        for el in [x0Input, hInput, rInput, toleranceInput, kMaxInput, tMaxInput] {
-            if Double(el!.stringValue) == nil {
-                self.setInvalidInput()
-                return false
-            }
+        if (!_validateFieldToDoubleValue(field: x0Input, errMsg: "X0 is unknown\nchange X0")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: x0Input, errMsg: "H is unknown\nchange H")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: x0Input, errMsg: "R is unknown\nchange R")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: x0Input, errMsg: "Tollerance is unknown\nchange Tollerance")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: x0Input, errMsg: "Tollerance is unknown\nchange Tollerance")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: kMaxInput, errMsg: "Limit of iteration is unknown\nchange Limit of iteration")){
+            return false
+        }
+        if (kMaxInput.intValue <= 0) {
+            self.setInvalidInput(text: "Limit of iteration must be > 0\nchange Limit of iteration")
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: tMaxInput, errMsg: "Limit of time is unknown\nchange Limit of time")){
+            return false
+        }
+        if tMaxInput.doubleValue <= 0.0 {
+            self.setInvalidInput(text: "Limit of time must be > 0\nchange Limit of time")
+            return false
+        }
+        return true
+    }
+    func _validateFieldToDoubleValue(field: NSTextField, errMsg: String = "") -> Bool {
+        if Double(field.stringValue) == nil {
+            self.setInvalidInput(text: errMsg)
+            return false
         }
         return true
     }

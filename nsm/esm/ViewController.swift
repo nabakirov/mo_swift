@@ -131,7 +131,14 @@ class ViewController: NSViewController {
                 isTimeReached = true
                 messageOutput.stringValue = "Not possible to find solution for given \ntime limit \(tMax)"
             }
-            
+
+            xOutput.doubleValue = x0
+            fOutput.doubleValue = fx0
+            relOutput.doubleValue = relEr
+            fd1Output.doubleValue = dfx0
+            fd2Output.doubleValue = ddfx0
+            kOutput.stringValue = String(k)
+            elapsedTimeOutput.doubleValue = endTime.timeIntervalSince(startTime)
             
         } while k < kMax && !isTimeReached && cond == 0
         
@@ -176,26 +183,65 @@ class ViewController: NSViewController {
         messageOutput.stringValue = ""
         
     }
-    func setInvalidInput() {
-        self.alertModal(messageText: "invalid input", informativeText: "")
+    func setInvalidInput(text: String = "") {
+        self.alertModal(messageText: "invalid input", informativeText: text)
         messageOutput.stringValue = "invalid input"
     }
     
-    func isValid() -> Bool {
-        for raw in [functionsInput.stringValue, fd1Input.stringValue, fd2Input.stringValue] {
-            let f = Parser(expression: raw)
-            do {
-                _ = try f.check_run(x: 1)
-            } catch {
-                self.setInvalidInput()
-                return false
-            }
+    func checkFuncInput(raw: String, errMsg: String) -> Bool {
+        let f = Parser(expression: raw)
+        do {
+            _ = try f.check_run(x: 1)
+        } catch {
+            self.setInvalidInput(text: errMsg)
+            return false
         }
-        for el in [x0Input, deltaInput, rInput, toleranceInput, kMaxInput, tMaxInput] {
-            if Double(el!.stringValue) == nil {
-                self.setInvalidInput()
-                return false
-            }
+        return true
+    }
+    
+    func isValid() -> Bool {
+        if checkFuncInput(raw: functionsInput.stringValue, errMsg: "Cannot parse function\nchange function field") == false{
+            return false
+        }
+        if checkFuncInput(raw: fd1Input.stringValue, errMsg: "Cannot parse f`(x)\nchange f`(x) field") == false{
+            return false
+        }
+        if checkFuncInput(raw: fd2Input.stringValue, errMsg: "Cannot parse f``(x)\nchange f``(x) field") == false{
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: x0Input, errMsg: "X0 is unknown\nchange X0")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: deltaInput, errMsg: "delta is unknown\nchange delta")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: rInput, errMsg: "R is unknown\nchange R")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: kMaxInput, errMsg: "Limit of iteration is unknown\nchange Limit of iteration")){
+            return false
+        }
+        if (kMaxInput.intValue <= 0) {
+            self.setInvalidInput(text: "Limit of iteration must be > 0\nchange Limit of iteration")
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: tMaxInput, errMsg: "Limit of time is unknown\nchange Limit of time")){
+            return false
+        }
+        if tMaxInput.doubleValue <= 0.0 {
+            self.setInvalidInput(text: "Limit of time must be > 0\nchange Limit of time")
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: toleranceInput, errMsg: "Tollerance is unknown\nchange Tollerance")){
+            return false
+        }
+        return true
+    }
+    
+    func _validateFieldToDoubleValue(field: NSTextField, errMsg: String = "") -> Bool {
+        if Double(field.stringValue) == nil {
+            self.setInvalidInput(text: errMsg)
+            return false
         }
         return true
     }

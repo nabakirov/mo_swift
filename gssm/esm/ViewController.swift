@@ -51,6 +51,7 @@ class ViewController: NSViewController {
     }
 
     @IBAction func runBtnClicked(_ sender: Any) {
+//        self.executeCmd()
         self.clear()
         if !self.isValid() {
             return
@@ -61,7 +62,7 @@ class ViewController: NSViewController {
         var b = bInput.doubleValue
         let tol: Double = toleranceInput.doubleValue
         var kMax: Int = kMaxInput.integerValue
-        let tMax: Double = tMaxInput.doubleValue
+        var tMax: Double = tMaxInput.doubleValue
         var isMin: Bool
         
         let r: Double = (pow(5, 1/2) - 1) / 2
@@ -74,6 +75,10 @@ class ViewController: NSViewController {
         f1 = f.run(x: x1)
         x2 = a + r * (b - a)
         f2 = f.run(x: x2)
+        if (f1.isNaN || f1.isInfinite || f2.isNaN || f2.isInfinite) {
+            setInvalidInput(text: "cannot execute function with given parameters \nChange input parameters")
+            return
+        }
         
         if minInput.state == NSControl.StateValue(rawValue: 1) {
             isMin = true
@@ -88,6 +93,8 @@ class ViewController: NSViewController {
         var k: Int = 0
         var message: String
         progressBar.doubleValue = 0.0
+        var pauseTime: Double = 0.0
+        var pauseStart: Date
         repeat {
             k += 1
             progressBar.doubleValue = Double(k * 100 / kMax)
@@ -123,17 +130,34 @@ class ViewController: NSViewController {
                 }
             }
             endTime = NSDate()
+            progressBar.doubleValue = 100
+            x1Output.doubleValue = x1
+            yf1Output.doubleValue = f1
+            yf2Output.doubleValue = f2
+            absOutput.doubleValue = abs(b - a)
+            kOutput.stringValue = String(k)
+            elapsedTimeOutput.doubleValue = endTime.timeIntervalSince(startTime) - pauseTime
+            
             if k == kMax {
+                pauseStart = Date()
                 if self.dialogOKCancel(question: "Continue Search?", text: "Solution was not found in given limit of iterations, add \(kMax) more iterations") {
                     kMax += kMax
                     kMaxInput.stringValue = String(kMax)
                 } else {
                     message = "Not possible to find solution for given \namount of iteration \(kMax)"
                 }
+                pauseTime += Date().timeIntervalSince(pauseStart)
             }
-            if endTime.timeIntervalSince(startTime) >= tMax {
-                isTimeReached = true
-                message = "Not possible to find solution for given \ntime limit \(tMax)"
+            if NSDate().timeIntervalSince(startTime) - pauseTime > tMax {
+                pauseStart = Date()
+                if self.dialogOKCancel(question: "Continue Search?", text: "Solution was not found in given time limit, add \(tMax) more time?") {
+                    tMax += tMax
+                    tMaxInput.stringValue = String(tMax)
+                } else {
+                    isTimeReached = true
+                    messageOutput.stringValue = "Not possible to find solution for given \ntime limit \(tMax)"
+                }
+                pauseTime += Date().timeIntervalSince(pauseStart)
             }
             
             
@@ -146,7 +170,7 @@ class ViewController: NSViewController {
         yf2Output.doubleValue = f2
         absOutput.doubleValue = abs(b - a)
         kOutput.stringValue = String(k)
-        elapsedTimeOutput.doubleValue = endTime.timeIntervalSince(startTime)
+        elapsedTimeOutput.doubleValue = endTime.timeIntervalSince(startTime) - pauseTime
     }
    
 
@@ -165,8 +189,8 @@ class ViewController: NSViewController {
         progressBar.doubleValue = 0
 //        self.openExcel()
     }
-    func setInvalidInput() {
-        self.alertModal(messageText: "invalid input", informativeText: "")
+    func setInvalidInput(text: String = "") {
+        self.alertModal(messageText: "invalid input", informativeText: text)
         messageOutput.stringValue = "invalid input"
     }
     
@@ -176,19 +200,42 @@ class ViewController: NSViewController {
             do {
                 _ = try f.check_run(x: 1)
             } catch {
-                self.setInvalidInput()
+                self.setInvalidInput(text: "Cannot parse function\nchange function field")
                 return false
             }
         }
-        for el in [aInput, bInput, toleranceInput, kMaxInput, tMaxInput, ] {
-            if Double(el!.stringValue) == nil {
-                self.setInvalidInput()
-                return false
-            }
+        if (!_validateFieldToDoubleValue(field: aInput, errMsg: "A is unknown\nchange A")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: bInput, errMsg: "B is unknown\nchange B")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: toleranceInput, errMsg: "Tollerance is unknown\nchange Tollerance")){
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: kMaxInput, errMsg: "Limit of iteration is unknown\nchange Limit of iteration")){
+            return false
+        }
+        if (kMaxInput.intValue <= 0) {
+            self.setInvalidInput(text: "Limit of iteration must be > 0\nchange Limit of iteration")
+            return false
+        }
+        if (!_validateFieldToDoubleValue(field: tMaxInput, errMsg: "Limit of time is unknown\nchange Limit of time")){
+            return false
+        }
+        if tMaxInput.doubleValue <= 0.0 {
+            self.setInvalidInput(text: "Limit of time must be > 0\nchange Limit of time")
+            return false
         }
         return true
     }
-    
+    func _validateFieldToDoubleValue(field: NSTextField, errMsg: String = "") -> Bool {
+        if Double(field.stringValue) == nil {
+            self.setInvalidInput(text: errMsg)
+            return false
+        }
+        return true
+    }
     func alertModal(messageText: String, informativeText: String) {
         let alert = NSAlert()
         alert.messageText = messageText
@@ -206,6 +253,16 @@ class ViewController: NSViewController {
         alert.addButton(withTitle: "OK")
         alert.addButton(withTitle: "Cancel")
         return alert.runModal() == .alertFirstButtonReturn
+    }
+    
+    func executeCmd() -> Bool {
+        let task = Process()
+        task.launchPath = "/bin/bash"
+        task.arguments = ["open looking_for.xlsx"]
+        task.launch()
+        return true
+        print(task.standardError)
+        print(task.standardOutput)
     }
     
     

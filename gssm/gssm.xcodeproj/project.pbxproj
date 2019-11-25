@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		98B0B1732367ECE6006F94D8 /* looking_for.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 98B0B1722367ECE6006F94D8 /* looking_for.xlsx */; };
 		CE43701621C7AA47004A91E7 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = CE43701521C7AA47004A91E7 /* Podfile */; };
-		CE43702A21C7AB35004A91E7 /* libXlsxReaderWriter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE43702121C7AAF2004A91E7 /* libXlsxReaderWriter.a */; };
 		CEE11E6221BBE69B00C5881F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE11E6121BBE69B00C5881F /* AppDelegate.swift */; };
 		CEE11E6421BBE69B00C5881F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE11E6321BBE69B00C5881F /* ViewController.swift */; };
 		CEE11E6621BBE69C00C5881F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEE11E6521BBE69C00C5881F /* Assets.xcassets */; };
@@ -63,7 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CE43700221C7A599004A91E7 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
+		98B0B1722367ECE6006F94D8 /* looking_for.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = looking_for.xlsx; sourceTree = "<group>"; };
 		CE43701521C7AA47004A91E7 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		CE43701721C7AAD9004A91E7 /* XlsxReaderWriter */ = {isa = PBXFileReference; lastKnownFileType = folder; path = XlsxReaderWriter; sourceTree = "<group>"; };
 		CE43701921C7AAF1004A91E7 /* XlsxReaderWriter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XlsxReaderWriter.xcodeproj; path = XlsxReaderWriter/XlsxReaderWriter.xcodeproj; sourceTree = "<group>"; };
@@ -85,7 +85,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE43702A21C7AB35004A91E7 /* libXlsxReaderWriter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +127,7 @@
 		CEE11E5521BBE69B00C5881F = {
 			isa = PBXGroup;
 			children = (
+				98B0B1722367ECE6006F94D8 /* looking_for.xlsx */,
 				CE43701521C7AA47004A91E7 /* Podfile */,
 				CEE11E6021BBE69B00C5881F /* esm */,
 				CEE11E5F21BBE69B00C5881F /* Products */,
@@ -150,7 +150,6 @@
 			children = (
 				CEE11E6121BBE69B00C5881F /* AppDelegate.swift */,
 				CEE11E6321BBE69B00C5881F /* ViewController.swift */,
-				CE43700221C7A599004A91E7 /* Bridge.h */,
 				CEE11E6521BBE69C00C5881F /* Assets.xcassets */,
 				CEE11E6721BBE69C00C5881F /* Main.storyboard */,
 				CEE11E6A21BBE69C00C5881F /* Info.plist */,
@@ -298,6 +297,7 @@
 			files = (
 				CE43701621C7AA47004A91E7 /* Podfile in Resources */,
 				CEE11E6621BBE69C00C5881F /* Assets.xcassets in Resources */,
+				98B0B1732367ECE6006F94D8 /* looking_for.xlsx in Resources */,
 				CEE11E6921BBE69C00C5881F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -506,7 +506,6 @@
 				"OTHER_LDFLAGS[arch=*]" = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = nabakirov.esm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = esm/Bridge.h;
 				SWIFT_VERSION = 4.2;
 				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/XlsxReaderWriter/**";
 				VALID_ARCHS = "i386 x86_64";
@@ -528,7 +527,6 @@
 				"OTHER_LDFLAGS[arch=*]" = "-all_load";
 				PRODUCT_BUNDLE_IDENTIFIER = nabakirov.esm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = esm/Bridge.h;
 				SWIFT_VERSION = 4.2;
 				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/XlsxReaderWriter/**";
 				VALID_ARCHS = "i386 x86_64";
